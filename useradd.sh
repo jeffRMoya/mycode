@@ -14,12 +14,27 @@ prompt(){
 makeUser(){
     echo "Making new user!"
     sudo useradd $USSR
-    echo "$USSR created!"
-    echo "Creating $GRP (if need be) and adding $USSR to $GRP"
+
+    if id "$USSR" >/dev/null 2>&1; then
+        echo "Hey dummy, $USSR  already exists"
+    else
+        echo "User $USSR created!"
+    fi
+
+    echo "Creating group $GRP (if need be) and adding $USSR to group $GRP"
     sleep 1
-    echo "Adding $USSR to $GRP"
+    echo "Adding $USSR to group $GRP"
     sleep 1
-    sudo usermod -aG $GRP $USSR
+    sudo groupadd $GRP
+
+    if id "$GRP" >/dev/null 2>&1; then
+        echo "Hello, group $GRP has already been created!... Dummy"
+    else
+        echo "Operation successful"
+    fi
+
+    sleep 1
+    sudo usermod -a -G $GRP $USSR
     echo "Done!"
 }
 
