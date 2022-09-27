@@ -1,3 +1,5 @@
+I want to learn how to version control projects with git
+
 # mycode (Project Title)
 
 The purpose of this repo is for training purposes for Python
