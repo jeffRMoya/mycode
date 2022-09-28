@@ -5,36 +5,38 @@
 #Will continue adding new Users until told otherwise
 
 prompt(){
-    echo "What do you want the userName to be?"
-    read USSR
-    echo "What group does the user belong to?"
-    read GRP
+    read -p "Enter the new username: "  USSR
+    read -p "Enter the new user's group: " GRP
 }
 
 makeUser(){
     echo "Making new user!"
-    sudo useradd $USSR
 
     if id "$USSR" >/dev/null 2>&1; then
         echo "Hey dummy, $USSR  already exists"
     else
+        sudo useradd "$USSR"
         echo "User $USSR created!"
     fi
 
     echo "Creating group $GRP (if need be) and adding $USSR to group $GRP"
     sleep 1
-    echo "Adding $USSR to group $GRP"
-    sleep 1
-    sudo groupadd $GRP
 
-    if id "$GRP" >/dev/null 2>&1; then
+    if grep -q $GRP /etc/group; then
         echo "Hello, group $GRP has already been created!... Dummy"
     else
+        sudo groupadd $GRP
         echo "Operation successful"
     fi
 
+    if id -nG "$USSR" | grep -qw "$GRP"; then
+        echo "$USSR already belongs to group $GRP"
+    else
+        echo "Adding $USSR to group $GRP"
+        sudo usermod -aG $GRP $USSR
+    fi
+
     sleep 1
-    sudo usermod -a -G $GRP $USSR
     echo "Done!"
 }
 
@@ -43,7 +45,7 @@ finish(){
     read DONE
 }
 
-echo "Welcome to the user/group creation app"
+echo "**Welcome to the Person Creation App**" | figlet
 echo "Here we will create users and groups"
 echo "This app will also automatically add the user to a group"
 echo "This app works with existing groups as well"
@@ -56,4 +58,4 @@ do
     finish
 done
 
-echo "Thanks for using the user/group creation app"
+echo "Thanks for  Playing God!!" | figlet
