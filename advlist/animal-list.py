@@ -6,4 +6,5 @@
 animals = ["dog", "bat", "cat", "cow", "fox"]
 
 # display the contents of that list of animals
-print(animals)
+animals_formatted = ", ".join(animals)
+print(f"List of animals: {animals_formatted}")
