@@ -36,6 +36,9 @@ makeUser(){
         sudo usermod -aG $GRP $USSR
     fi
 
+    echo "Let's verify that user"
+   id "$USSR" 
+
     sleep 1
     echo "Done!"
 }
