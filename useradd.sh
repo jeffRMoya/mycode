@@ -58,4 +58,4 @@ do
     finish
 done
 
-echo "Thanks for  Playing God!!" | figlet
+echo "Thanks for Playing God!!" | figlet
