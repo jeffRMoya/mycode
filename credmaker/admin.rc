@@ -1,7 +1,0 @@
-export OS_AUTH_URL=jeff.com
-export OS_IDENTITY_API_VERSION=3
-export OS_PROJECT_NAME=jeffirl
-export OS_PROJECT_DOMAIN_NAME=jeffirl.com
-export OS_USERNAME=jeffrmoya
-export OS_USER_DOMAIN_NAME=jeffrmoya.com
-export OS_PASSWORD=password
