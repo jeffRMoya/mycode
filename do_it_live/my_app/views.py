@@ -6,6 +6,9 @@ import json
 import requests
 
 views = Blueprint('views', __name__)
+kitsu_url = "https://kitsu.io/api/edge"
+headers = {"Accept": "application/vnd.api+json",
+           "Content-Type": "application/vnd.api+json"}
 
 
 @views.route('/', methods=['GET', 'POST'])
@@ -13,23 +16,20 @@ views = Blueprint('views', __name__)
 def home():
     if request.method == 'POST':
         note = request.form.get('note')
+        keyword = request.form["keyword"]
 
-        if len(note) < 1:
-            flash("Note is too short!", category='error')
-        else:
-            new_note = Note(data=note, user_id=current_user.id)
-            db.session.add(new_note)
-            db.session.commit()
-            flash('Note added!', category='success')
-
-    kitsu_url = "https://kitsu.io/api/edge"
-    headers = {"Accept": "application/vnd.api+json",
-               "Content-Type": "application/vnd.api+json"}
-    if request.method == 'GET':
-        keyword = request.form.get('keyword')
-        resp = requests.get(
-            kitsu_url + "/anime?filter[categories]=" + keyword, headers=headers)
-        print(resp)
+        if note:
+            if len(note) < 1:
+                flash("Note is too short!", category='error')
+            else:
+                new_note = Note(data=note, user_id=current_user.id)
+                db.session.add(new_note)
+                db.session.commit()
+                flash('Note added!', category='success')
+        if keyword:
+            resp = requests.get(
+                kitsu_url + "/anime?filter[categories]=" + keyword, headers=headers)
+            print(type(resp))
 
     return render_template("home.html", user=current_user)
 
