@@ -39,6 +39,14 @@ def home():
     return render_template("home.html", user=current_user, items=events, locations=locales)
 
 
+@views.route('/watch-list', methods=['POST', 'GET'])
+@login_required
+def watch_list():
+    event = json.loads(request.data)
+    print(event)
+    return jsonify({})
+
+
 @views.route('/delete-note', methods=['POST'])
 def delete_note():
     note = json.loads(request.data)
