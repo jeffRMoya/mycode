@@ -15,37 +15,56 @@
   {% endfor %}
 </ul>
 <form action="#" method="POST">
-  <textarea name="note" id="note" class="form-control"></textarea>
+  <p>Note:</p>
+  <p><input type="text" name="note" id="note" /></p>
   <br />
   <p>Search:</p>
   <p><input type="text" name="keyword" /></p>
+  <br />
   <div align="center">
     <button type="submit" class="btn btn-primary">Add Note</button>
   </div>
 </form>
 
+{% if items %} {% for event in items %} {% for location in locations %}
 <div class="card">
   <img
-    src="..."
+    src="{{ event['images'][0]['url'] }}"
     id="card-img-1"
     style="height: 250px"
     class="card-img-top"
     alt="..."
   />
   <div class="card-body">
-    <h5 id="card-title-1" class="card-title">Empty</h5>
-    <p id="card-desc-1" class="card-text">
-      Some quick example text to build on the card title and make up the bulk of
-      the card's content.
+    <h5 id="card-title-1" class="card-title">{{event['name']}}</h5>
+    <p class="card-text">
+      Where:
+      <span id="card-desc-1" class="card-text"
+        >{{ location['city']['name'] }}</span
+      >
+    </p>
+    <p class="card-text">
+      When:
+      <span id="card-desc-2" class="card-text"
+        >{{ event['dates']['start']['dateTime'] }}</span
+      >
     </p>
     <a
       id="desLink"
-      href="#"
+      href="{{ event['url'] }}"
       target="_blank"
       rel="noopener noreferrer"
       class="btn btn-primary"
-      >Destination Website</a
+      >Learn More</a
     >
+    <button
+      type="button"
+      id="{{ event['id'] }}"
+      class="link-btn btn btn-success mx-auto"
+      onclick="addToList(id)"
+    >
+      Add To Watch List
+    </button>
   </div>
 </div>
-{% endblock %}
+{% endfor %} {% endfor %} {% endif %} {% endblock %}

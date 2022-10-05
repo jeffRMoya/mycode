@@ -6,17 +6,20 @@ import json
 import requests
 
 views = Blueprint('views', __name__)
-kitsu_url = "https://kitsu.io/api/edge"
-headers = {"Accept": "application/vnd.api+json",
-           "Content-Type": "application/vnd.api+json"}
+
+url = "https://app.ticketmaster.com/discovery/v2/"
+api_key = "Bp0o0LwAEIR2zOwa7h1eoT7BnylC1kst"
 
 
 @views.route('/', methods=['GET', 'POST'])
 @login_required
 def home():
+    locales = {}
+    events = {}
+
     if request.method == 'POST':
         note = request.form.get('note')
-        keyword = request.form["keyword"]
+        keyword = request.form.get("keyword")
 
         if note:
             if len(note) < 1:
@@ -28,10 +31,12 @@ def home():
                 flash('Note added!', category='success')
         if keyword:
             resp = requests.get(
-                kitsu_url + "/anime?filter[categories]=" + keyword, headers=headers)
-            print(type(resp))
+                f"{url}events.json?apikey={api_key}&keyword={keyword}&locale=*&size=20&city={note}").json()
+            events = resp['_embedded']['events']
+            for event in events:
+                locales = event['_embedded']['venues']
 
-    return render_template("home.html", user=current_user)
+    return render_template("home.html", user=current_user, items=events, locations=locales)
 
 
 @views.route('/delete-note', methods=['POST'])
