@@ -8,18 +8,10 @@ function deleteNote(noteId) {
 }
 
 function addToList(eventId) {
-    $.ajax({
-        type:"GET",
-        url:`https://app.ticketmaster.com/discovery/v2/events/${eventId}.json?apikey=zmHIGC4DGRbZkiLCi3kAbhARDALDK36a`,
-        async:true,
-        dataType: "json",
-        success: function(json) {
-                    console.log(json);
-                    window.location.href = "/watch-list"
-                },
-        error: function(xhr, status, err) {
-                    console.log(xhr, status, err);
-                }
-      });
-    console.log(e);
+    fetch('/add-to-list', {
+        method: 'POST',
+        body: JSON.stringify({eventId: eventId})
+    }).then((_res) => {
+        console.log(_res);
+    });
 }
