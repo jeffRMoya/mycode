@@ -4,20 +4,20 @@ from flask_login import UserMixin
 from sqlalchemy.sql import func
 
 
+class Event(db.Model):
+    title = db.Column(db.String(200))
+    image = db.Column(db.String(300))
+    date = db.Column(db.String(150))
+    city = db.Column(db.String(100))
+    website = db.Column(db.String(300))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    id = db.Column(db.Integer, primary_key=True)
+
+
 class Note(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     data = db.Column(db.String(10000))
     date = db.Column(db.DateTime(timezone=True), default=func.now())
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-
-
-class Event(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(200))
-    image = db.Column(db.String(300))
-    date_time = db.Column(db.DateTime(timezone=True))
-    city = db.Column(db.String(100))
-    website = db.Column(db.String(300))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
 
